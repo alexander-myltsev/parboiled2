@@ -16,33 +16,7 @@
 
 package org.parboiled2.examples
 
-import scala.annotation.tailrec
-import scala.util.{Failure, Success}
-import scala.io.StdIn
 import org.parboiled2._
-
-object Calculator1 extends App {
-  repl()
-
-  @tailrec
-  def repl(): Unit = {
-    // TODO: Replace next three lines with `scala.Predef.readLine(text: String, args: Any*)`
-    // once BUG https://issues.scala-lang.org/browse/SI-8167 is fixed
-    print("---\nEnter calculator expression > ")
-    Console.out.flush()
-    StdIn.readLine() match {
-      case "" =>
-      case line =>
-        val parser = new Calculator1(line)
-        parser.InputLine.run() match {
-          case Success(result)        => println("Result: " + result)
-          case Failure(e: ParseError) => println("Expression is not valid: " + parser.formatError(e))
-          case Failure(e)             => println("Unexpected error during parsing run: " + e)
-        }
-        repl()
-    }
-  }
-}
 
 /**
  * This parser reads simple calculator expressions and evaluates them right during

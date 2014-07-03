@@ -18,7 +18,6 @@ package org.parboiled2.examples
 
 import scala.annotation.switch
 import org.parboiled2._
-import spray.json._
 
 /**
  * This is a feature-complete JSON parser implementation that almost directly
@@ -26,6 +25,7 @@ import spray.json._
  */
 class JsonParser(val input: ParserInput) extends Parser with StringBuilding {
   import CharPredicate.{Digit, Digit19, HexDigit}
+  import JsonNodes._
 
   // the root rule
   def Json = rule { WhiteSpace ~ Value ~ EOI }
@@ -109,4 +109,92 @@ object Test {
 object JsonParser extends App {
   for (i <- 0 to 100)
     new JsonParser(Test.json).Json.run().get
+}
+
+object JsonNodes {
+
+  import collection.immutable.ListMap
+
+  type JsField = (String, JsValue)
+
+  /**
+   * The general type of a JSON AST node.
+   */
+  sealed abstract class JsValue
+
+  /**
+   * A JSON object.
+   */
+  case class JsObject(fields: Map[String, JsValue]) extends JsValue {
+    def getFields(fieldNames: String*): Seq[JsValue] = fieldNames.flatMap(fields.get)
+  }
+
+  object JsObject {
+    // we use a ListMap in order to preserve the field order
+    def apply(members: JsField*) = new JsObject(ListMap(members: _*))
+
+    def apply(members: List[JsField]) = new JsObject(ListMap(members: _*))
+  }
+
+  /**
+   * A JSON array.
+   */
+  case class JsArray(elements: List[JsValue]) extends JsValue
+
+  object JsArray {
+    def apply(elements: JsValue*) = new JsArray(elements.toList)
+  }
+
+  /**
+   * A JSON string.
+   */
+  case class JsString(value: String) extends JsValue
+
+  object JsString {
+    def apply(value: Symbol) = new JsString(value.name)
+  }
+
+  /**
+   * A JSON number.
+   */
+  case class JsNumber(value: Long) extends JsValue
+
+  object JsNumber {
+    def apply(n: Int) = new JsNumber(n)
+
+    def apply(n: Double) = n match {
+      case n if n.isNaN => JsNull
+      case n if n.isInfinity => JsNull
+      case _ => new JsNumber(n.toLong)
+    }
+
+    def apply(n: String) = new JsNumber(n.toLong)
+  }
+
+  /**
+   * JSON Booleans.
+   */
+  sealed abstract class JsBoolean extends JsValue {
+    def value: Boolean
+  }
+
+  object JsBoolean {
+    def apply(x: Boolean): JsBoolean = if (x) JsTrue else JsFalse
+
+    def unapply(x: JsBoolean): Option[Boolean] = Some(x.value)
+  }
+
+  case object JsTrue extends JsBoolean {
+    def value = true
+  }
+
+  case object JsFalse extends JsBoolean {
+    def value = false
+  }
+
+  /**
+   * The representation for JSON null.
+   */
+  case object JsNull extends JsValue
+
 }

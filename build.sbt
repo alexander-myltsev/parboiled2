@@ -6,11 +6,11 @@ import scala.xml.{Node => XNode, NodeSeq}
 val commonSettings = Seq(
   version := "2.0.0",
   scalaVersion := "2.11.1",
-  organization := "org.parboiled",
+  organization := "name.myltsev",
   homepage := Some(new URL("http://parboiled.org")),
   description := "Fast and elegant PEG parsing in Scala - lightweight, easy-to-use, powerful",
   startYear := Some(2009),
-  licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  licenses := Seq("Apache-2.0" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   javacOptions ++= Seq(
     "-encoding", "UTF-8",
     "-source", "1.6",
@@ -29,8 +29,9 @@ val commonSettings = Seq(
   resolvers ++= Seq(
     Resolver.sonatypeRepo("snapshots"),
     Resolver.sonatypeRepo("releases"),
-    "spray repo" at "http://repo.spray.io"),
-  shellPrompt := { s => Project.extract(s).currentProject.id + " > " })
+    "spray repo" at "http://repo.spray.io",
+    "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven"),
+  shellPrompt := { s => Project.extract(s).currentProject.id + " > " }) ++ scalaJSSettings
 
 val formattingSettings = scalariformSettings ++ Seq(
   ScalariformKeys.preferences := ScalariformKeys.preferences.value
@@ -40,14 +41,9 @@ val formattingSettings = scalariformSettings ++ Seq(
     .setPreference(DoubleIndentClassDeclaration, true)
     .setPreference(PreserveDanglingCloseParenthesis, true))
 
-val publishingSettings = Seq(
+val publishingSettings = bintray.Plugin.bintrayPublishSettings ++ Seq(
   publishMavenStyle := true,
   useGpg := true,
-  publishTo <<= version { v: String =>
-    val nexus = "https://oss.sonatype.org/"
-    if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
-    else                             Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  },
   pomIncludeRepository := { _ => false },
   pomExtra :=
     <scm>
@@ -72,10 +68,10 @@ val noPublishingSettings = Seq(
 
 /////////////////////// DEPENDENCIES /////////////////////////
 
-val scalaReflect     = "org.scala-lang"  %  "scala-reflect"     % "2.11.1"   % "provided"
-val shapeless        = "com.chuusai"     %% "shapeless"         % "2.0.0"    % "compile"
-val specs2Core       = "org.specs2"      %% "specs2-core"       % "2.3.11"   % "test"
-val specs2ScalaCheck = "org.specs2"      %% "specs2-scalacheck" % "2.3.11"   % "test"
+val scalaReflect     = "org.scala-lang"  %  "scala-reflect"      % "2.11.1"   % "provided"
+val shapeless        = "name.myltsev"    %% "shapeless_sjs0.5"   % "2.0.0"    % "compile"
+val specs2Core       = "org.specs2"      %% "specs2-core"        % "2.3.11"   % "test"
+val specs2ScalaCheck = "org.specs2"      %% "specs2-scalacheck"  % "2.3.11"   % "test"
 
 /////////////////////// PROJECTS /////////////////////////
 
@@ -91,7 +87,6 @@ lazy val examples = project
   .settings(
     libraryDependencies ++= Seq(
       specs2Core,
-      "io.spray" %%  "spray-json" % "1.2.6",
       "org.json4s" %% "json4s-native" % "3.2.9",
       "org.json4s" %% "json4s-jackson" % "3.2.9",
       "io.argonaut" %% "argonaut" % "6.0.4"))

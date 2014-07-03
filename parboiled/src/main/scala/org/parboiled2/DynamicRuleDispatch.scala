@@ -60,7 +60,11 @@ object DynamicRuleDispatch {
         case x                            ⇒ c.abort(x.pos, s"Invalid `String` argument `x`, only `String` literals are supported!")
       }
     }(collection.breakOut)
-    java.util.Arrays.sort(names.asInstanceOf[Array[Object]])
+
+    java.util.Arrays.sort(names.asInstanceOf[Array[Object]], new java.util.Comparator[Object]() {
+      // TODO: Remove this comparator when scala-js supports Array.sort(objs: Array[Object]): Unit
+      def compare(o1: Object, o2: Object): Int = o1.asInstanceOf[Comparable[Object]].compareTo(o2)
+    })
 
     def rec(start: Int, end: Int): Tree =
       if (start <= end) {

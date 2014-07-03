@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>parboiled2 ABCParser - Scala.js example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<h1><a href="http://parboiled2.org">parboiled2</a> ABCParser - Scala.js exapmle</h1>
+
+<p>After having compiled and packaged properly the code for the application
+    (using `sbt fastOptJS`), you should be able to parse strings of pattern 'a^n b^n c^n'.</p>
+
+<script type="text/javascript" src="../../../target/scala-2.11/examples-fastopt.js"></script>
+
+<script type="text/javascript">
+    function parse() {
+        var txt = document.getElementById('text_str').value;
+        var result = ABCParserJS().parse(txt);
+        document.getElementById('res').innerHTML = 'Result: ' + result;
+    }
+</script>
+
+<input id="text_str" type="text" value="aabbcc"/>
+<input type="button" value="parse" onclick='parse()'/>
+
+<div id="res">Result:</div>
+
+</body>
+</html>

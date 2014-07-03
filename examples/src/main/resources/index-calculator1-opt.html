@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>parboiled2 Calculator1 - Scala.js example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<h1><a href="http://parboiled2.org">parboiled2</a> Calculator - Scala.js exapmle</h1>
+
+<p>After having compiled and packaged properly the code for the application
+    (using `sbt fastOptJS`), you should be able to parse arithmetic expressions.</p>
+
+<script type="text/javascript" src="../../../target/scala-2.11/examples-fastopt.js"></script>
+
+<script type="text/javascript">
+    function parse() {
+        var txt = document.getElementById('text_str').value;
+        var result = Calculator1JS().parse(txt);
+        document.getElementById('res').innerHTML = 'Result: ' + result;
+    }
+</script>
+
+<input id="text_str" type="text" value="1+2*2"/>
+<input type="button" value="parse" onclick='parse()'/>
+
+<div id="res">Result:</div>
+
+</body>
+</html>

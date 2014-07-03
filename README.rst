@@ -2,6 +2,17 @@
 
 .. contents:: Contents of this Document
 
+Scala-JS Launch
+===============
+
+1. Properly pack everything with `sbt fastOptJS`. Ignore all warnings, we will fix them in a upcoming PR.
+2. Launch simple web-server (e. g. `python -m SimpleHTTPServer`)
+3. Open one of examples in a browser:
+
+* http://localhost:8000/examples/src/main/resources/index-abcparser-opt.html
+* http://localhost:8000/examples/src/main/resources/index-calculator1-opt.html
+* http://localhost:8000/examples/src/main/resources/index-calculator2-opt.html
+* http://localhost:8000/examples/src/main/resources/index-jsonparser-opt.html
 
 Introduction
 ============
