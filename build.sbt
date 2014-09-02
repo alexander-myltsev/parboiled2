@@ -30,8 +30,7 @@ val commonSettings = Seq(
     Resolver.sonatypeRepo("snapshots"),
     Resolver.sonatypeRepo("releases"),
     "spray repo" at "http://repo.spray.io",
-    "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven"),
-  shellPrompt := { s => Project.extract(s).currentProject.id + " > " }) ++ scalaJSSettings
+    "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven")) ++ scalaJSSettings
 
 val formattingSettings = scalariformSettings ++ Seq(
   ScalariformKeys.preferences := ScalariformKeys.preferences.value

@@ -1,4 +1,4 @@
-addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.1")
+addSbtPlugin("org.scala-lang.modules.scalajs" % "scalajs-sbt-plugin" % "0.5.4")
 
 resolvers += Resolver.url(
   "bintray-sbt-plugin-releases",
