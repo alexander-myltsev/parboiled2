@@ -237,7 +237,10 @@ object CharPredicate {
 
   class ArrayBased private[CharPredicate] (private val chars: Array[Char]) extends CharPredicate {
     import java.util.Arrays._
-    sort(chars)
+    // TODO: Refactor this sort when scala-js supports Array.sort(chars: Array[Chars]): Unit
+    sort(chars.map(c ⇒ c.asInstanceOf[Object]), (new java.util.Comparator[Char]() {
+      def compare(c1: Char, c2: Char): Int = c1 - c2
+    }).asInstanceOf[java.util.Comparator[Object]])
 
     // TODO: switch to faster binary search algorithm with an adaptive pivot, e.g. http://ochafik.com/blog/?p=106
     def apply(c: Char): Boolean = binarySearch(chars, c) >= 0

@@ -2,6 +2,17 @@
 
 .. contents:: Contents of this Document
 
+Scala-JS Launch
+===============
+
+1. Properly pack everything with `sbt fastOptJS`. Ignore all warnings, we will fix them in a upcoming PR.
+2. Launch simple web-server (e. g. `python -m SimpleHTTPServer`)
+3. Open one of examples in a browser:
+
+* http://localhost:8000/examples/src/main/resources/index-abcparser-opt.html
+* http://localhost:8000/examples/src/main/resources/index-calculator1-opt.html
+* http://localhost:8000/examples/src/main/resources/index-calculator2-opt.html
+* http://localhost:8000/examples/src/main/resources/index-jsonparser-opt.html
 
 Introduction
 ============
@@ -783,8 +794,8 @@ Meta-Rules
 ----------
 
 Sometimes you might find yourself in a situation where you'd like to DRY up your grammar definition by factoring out
-common constructs in several rule definitions in a "meta-rule" that modifies/decorates other rules.
-Essentially you'd like to write something like this (which is *not* directly possible):
+common constructs from several rule definitions in a "meta-rule" that modifies/decorates other rules.
+Essentially you'd like to write something like this (*illegal* code!):
 
 .. code:: Scala
 
@@ -793,12 +804,12 @@ Essentially you'd like to write something like this (which is *not* directly pos
     def cd = rule { "cd" }
     def bracketed(inner: Rule0) = rule { '[' ~ inner ~ ']' }
 
-In this hypothetical example ``bracketed`` is a meta-rule which take another rule as parameter and calls it from within
+In this hypothetical example ``bracketed`` is a meta-rule which takes another rule as parameter and calls it from within
 its own rule definition.
 
-Unfortunately enabling a syntax such as the one shown above it not directly possible with parboiled.
-When looking at how the parser generation in parboiled actually works the reason becomes clear.
-parboiled "expands" the rule definition that is passed as argument to the ``rule`` macro into actual Scala code.
+Unfortunately enabling a syntax such as the one shown above it not directly possible with *parboiled*.
+When looking at how the parser generation in *parboiled* actually works the reason becomes clear.
+*parboiled* "expands" the rule definition that is passed as argument to the ``rule`` macro into actual Scala code.
 The rule methods themselves however remain what they are: instance methods on the parser class.
 And since you cannot simply pass a method name as argument to another method the calls ``bracketed(ab)`` and
 ``bracketed(cd)`` from above don't compile.
@@ -813,8 +824,8 @@ However, there is a work-around which might be good enough for your meta-rule ne
     def bracketed(inner: () ⇒ Rule0) = rule { '[' ~ inner() ~ ']' }
 
 If you model the rules that you want to pass as arguments to other rules as ``Function0`` instances you *can* pass
-them around. Assigning those function instances to ``val``s avoids re-allocation which would otherwise happen during
-*every* execution of the ``expression`` rule and which would come with a potentially significant performance cost.
+them around. Assigning those function instances to ``val`` members avoids re-allocation during *every* execution of
+the ``expression`` rule which would come with a potentially significant performance cost.
 
 
 Common Mistakes

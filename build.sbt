@@ -10,7 +10,7 @@ val commonSettings = Seq(
   homepage := Some(new URL("http://parboiled.org")),
   description := "Fast and elegant PEG parsing in Scala - lightweight, easy-to-use, powerful",
   startYear := Some(2009),
-  licenses := Seq("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")),
+  licenses := Seq("Apache-2.0" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt")),
   javacOptions ++= Seq(
     "-encoding", "UTF-8",
     "-source", "1.6",
@@ -25,7 +25,12 @@ val commonSettings = Seq(
     "-Xlint",
     "-language:_",
     "-target:jvm-1.6",
-    "-Xlog-reflective-calls"))
+    "-Xlog-reflective-calls"),
+  resolvers ++= Seq(
+    Resolver.sonatypeRepo("snapshots"),
+    Resolver.sonatypeRepo("releases"),
+    "spray repo" at "http://repo.spray.io",
+    "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven")) ++ scalaJSSettings
 
 val formattingSettings = scalariformSettings ++ Seq(
   ScalariformKeys.preferences := ScalariformKeys.preferences.value
@@ -35,14 +40,9 @@ val formattingSettings = scalariformSettings ++ Seq(
     .setPreference(DoubleIndentClassDeclaration, true)
     .setPreference(PreserveDanglingCloseParenthesis, true))
 
-val publishingSettings = Seq(
+val publishingSettings = bintray.Plugin.bintrayPublishSettings ++ Seq(
   publishMavenStyle := true,
   useGpg := true,
-  publishTo <<= version { v: String =>
-    val nexus = "https://oss.sonatype.org/"
-    if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
-    else                             Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  },
   pomIncludeRepository := { _ => false },
   pomExtra :=
     <scm>
@@ -69,11 +69,11 @@ val noPublishingSettings = Seq(
 
 val paradiseVersion = "2.0.1"
 
-val scalaReflect     = "org.scala-lang"  %  "scala-reflect"     % "2.10.4"        % "provided"
-val shapeless        = "com.chuusai"     %  "shapeless_2.10.4"  % "2.0.0"         % "compile"
-val quasiquotes      = "org.scalamacros" %% "quasiquotes"       % paradiseVersion % "compile"
-val specs2Core       = "org.specs2"      %% "specs2-core"       % "2.4.2"   % "test"
-val specs2ScalaCheck = "org.specs2"      %% "specs2-scalacheck" % "2.4.2"   % "test"
+val scalaReflect     = "org.scala-lang"  %  "scala-reflect"            % "2.10.4"        % "provided"
+val shapeless        = "name.myltsev"    %  "shapeless_sjs0.5_2.10.4"  % "2.0.0"         % "compile"
+val quasiquotes      = "org.scalamacros" %% "quasiquotes"              % paradiseVersion % "compile"
+val specs2Core       = "org.specs2"      %% "specs2-core"              % "2.4.2"         % "test"
+val specs2ScalaCheck = "org.specs2"      %% "specs2-scalacheck"        % "2.4.2"         % "test"
 
 /////////////////////// PROJECTS /////////////////////////
 
