@@ -82,7 +82,7 @@ lazy val examples = project
   .dependsOn(parboiled)
   .settings(commonSettings: _*)
   .settings(noPublishingSettings: _*)
-  .settings(libraryDependencies ++= Seq(specs2Core, "io.spray" %%  "spray-json" % "1.2.6"))
+  .settings(libraryDependencies ++= Seq(scalaReflect, specs2Core, "io.spray" %%  "spray-json" % "1.2.6"))
 
 lazy val bench = inputKey[Unit]("Runs the JSON parser benchmark with a simple standard config")
 
