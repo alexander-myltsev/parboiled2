@@ -71,7 +71,7 @@ val noPublishingSettings = Seq(
 val scalaReflect     = "org.scala-lang"  %  "scala-reflect"     % "2.11.5"   % "provided"
 val specs2Core       = "org.specs2"      %% "specs2-core"       % "2.4.16"   % "test"
 val specs2ScalaCheck = "org.specs2"      %% "specs2-scalacheck" % "2.4.16"   % "test"
-val shapeless        = Def.setting("name.myltsev" %%% "shapeless" % "2.1.0" % "compile")
+val shapeless        = Def.setting("com.github.japgolly.fork.shapeless" %%% "shapeless" % "2.1.0-2")
 
 /////////////////////// PROJECTS /////////////////////////
 
