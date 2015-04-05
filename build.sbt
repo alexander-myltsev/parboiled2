@@ -30,8 +30,7 @@ val commonSettings = Seq(
   resolvers ++= Seq(
     Resolver.sonatypeRepo("snapshots"),
     Resolver.sonatypeRepo("releases"),
-    "spray repo" at "http://repo.spray.io",
-    "bintray-alexander_myltsev" at "http://dl.bintray.com/content/alexander-myltsev/maven"))
+    "spray repo" at "http://repo.spray.io"))
 
 val formattingSettings = scalariformSettings ++ Seq(
   ScalariformKeys.preferences := ScalariformKeys.preferences.value
@@ -41,7 +40,7 @@ val formattingSettings = scalariformSettings ++ Seq(
     .setPreference(DoubleIndentClassDeclaration, true)
     .setPreference(PreserveDanglingCloseParenthesis, true))
 
-val publishingSettings = bintray.Plugin.bintrayPublishSettings ++ Seq(
+val publishingSettings = Seq(
   publishMavenStyle := true,
   useGpg := true,
   pomIncludeRepository := { _ => false },
