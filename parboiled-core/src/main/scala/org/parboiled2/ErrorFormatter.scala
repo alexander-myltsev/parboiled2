@@ -236,6 +236,7 @@ class ErrorFormatter(showExpected: Boolean = true,
       case Atomic              ⇒ "atomic"
       case AndPredicate        ⇒ "&"
       case Capture             ⇒ "capture"
+      case CapturePos          ⇒ "capturePos"
       case Cut                 ⇒ "cut"
       case FirstOf             ⇒ "|"
       case x: IgnoreCaseString ⇒ '"' + escape(x.string) + '"'
