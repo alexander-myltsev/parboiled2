@@ -5,7 +5,7 @@ import scala.xml.{Node => XNode, NodeSeq}
 import com.typesafe.sbt.osgi.SbtOsgi._
 
 val commonSettings = Seq(
-  version := "2.2.0-2015.08.13-SNAPSHOT",
+  version := "2.2.0-2015.09.11-SNAPSHOT",
   scalaVersion := "2.11.7",
   organization := "org.globalnames",
   homepage := Some(new URL("http://parboiled.org")),
