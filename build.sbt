@@ -5,7 +5,7 @@ import scala.xml.{Node => XNode, NodeSeq}
 import com.typesafe.sbt.osgi.SbtOsgi._
 
 val commonSettings = Seq(
-  version := "2.2.0-2015.09.11-SNAPSHOT",
+  version := "2.2.1",
   scalaVersion := "2.11.7",
   organization := "org.globalnames",
   homepage := Some(new URL("http://parboiled.org")),
@@ -129,7 +129,7 @@ lazy val parboiled = project
       new RuleTransformer(filter).transform(_).head
     }
   )
-  .settings(pbOsgiSettings: _*)  
+  .settings(pbOsgiSettings: _*)
 
 lazy val generateActionOps = taskKey[Seq[File]]("Generates the ActionOps boilerplate source file")
 
@@ -141,4 +141,4 @@ lazy val parboiledCore = project.in(file("parboiled-core"))
     libraryDependencies ++= Seq(scalaReflect, shapeless, specs2Core, specs2ScalaCheck),
     generateActionOps := ActionOpsBoilerplate((sourceManaged in Compile).value, streams.value),
     (sourceGenerators in Compile) += generateActionOps.taskValue)
-  .settings(pbOsgiSettings: _*)    
+  .settings(pbOsgiSettings: _*)
